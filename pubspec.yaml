@@ -1,6 +1,6 @@
 name: nova_geocoder
 description: A package to transform a description of a location i.e. street address, town name into latitude and longitude and vice versa.
-version: 1.0.0
+version: 1.1.0
 repository: 'https://github.com/nova-flutter/nova_geocoder'
 issue_tracker: 'https://github.com/nova-flutter/nova_geocoder/issues'
 
