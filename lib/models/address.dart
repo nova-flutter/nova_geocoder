@@ -1,10 +1,10 @@
-import 'package:meta/meta.dart';
+
 
 import 'address_component.dart';
 import 'geometry.dart';
 import 'simple_address.dart';
 
-@immutable
+
 class Address {
   const Address({
     required this.addressComponents,

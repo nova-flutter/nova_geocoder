@@ -1,4 +1,4 @@
-import 'coordinates.dart';
+import 'lat_lng_literal.dart';
 
 class SimpleAddress {
   SimpleAddress({
@@ -24,7 +24,7 @@ class SimpleAddress {
   final String? administrativeAreaLevel1;
   final String? country;
   final String? postalCode;
-  final Coordinates location;
+  final LatLngLiteral location;
   final String formattedAddress;
 
   String? get city => locality;

@@ -1,6 +1,3 @@
-import 'package:meta/meta.dart';
-
-@immutable
 class AddressComponent {
   const AddressComponent({
     required this.shortName,

@@ -1,8 +1,5 @@
-import 'package:meta/meta.dart';
+import 'lat_lng_literal.dart';
 
-import 'coordinates.dart';
-
-@immutable
 class Geometry {
   const Geometry({
     this.bounds,
@@ -12,7 +9,7 @@ class Geometry {
   });
 
   final Bounds? bounds;
-  final Coordinates location;
+  final LatLngLiteral location;
   final String locationType;
   final Viewport viewport;
 
@@ -24,22 +21,21 @@ class Geometry {
   factory Geometry.fromMap(Map<String, dynamic> map) {
     return Geometry(
       bounds: map['bounds'] == null ? null : Bounds.fromMap(map['bounds']),
-      location: Coordinates.fromMap(map['location']),
+      location: LatLngLiteral.fromMap(map['location']),
       locationType: map['location_type'] as String,
       viewport: Viewport.fromMap(map['viewport']),
     );
   }
 }
 
-@immutable
 class Bounds {
   const Bounds({
     required this.northeast,
     required this.southwest,
   });
 
-  final Coordinates northeast;
-  final Coordinates southwest;
+  final LatLngLiteral northeast;
+  final LatLngLiteral southwest;
 
   @override
   String toString() {
@@ -48,21 +44,20 @@ class Bounds {
 
   factory Bounds.fromMap(Map<String, dynamic> map) {
     return Bounds(
-      northeast: Coordinates.fromMap(map['northeast']),
-      southwest: Coordinates.fromMap(map['southwest']),
+      northeast: LatLngLiteral.fromMap(map['northeast']),
+      southwest: LatLngLiteral.fromMap(map['southwest']),
     );
   }
 }
 
-@immutable
 class Viewport {
   const Viewport({
     required this.northeast,
     required this.southwest,
   });
 
-  final Coordinates northeast;
-  final Coordinates southwest;
+  final LatLngLiteral northeast;
+  final LatLngLiteral southwest;
 
   @override
   String toString() {
@@ -71,8 +66,8 @@ class Viewport {
 
   factory Viewport.fromMap(Map<String, dynamic> map) {
     return Viewport(
-      northeast: Coordinates.fromMap(map['northeast']),
-      southwest: Coordinates.fromMap(map['southwest']),
+      northeast: LatLngLiteral.fromMap(map['northeast']),
+      southwest: LatLngLiteral.fromMap(map['southwest']),
     );
   }
 }

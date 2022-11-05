@@ -1,26 +1,25 @@
-import 'package:meta/meta.dart';
-
 import 'address.dart';
+import 'geocode_status.dart';
 
-@immutable
 class GeocodeResponse {
   const GeocodeResponse._({
     required this.status,
     required this.results,
-    required String? errorMessage,
-  }) : _errorMessage = errorMessage;
+    this.errorMessage,
+  });
 
-  final String status;
-  final String? _errorMessage;
+  final GeocodeStatus status;
+  final String? errorMessage;
   final List<Address> results;
 
-  bool get isSuccess => status == 'OK';
-
-  String get errorMessage => _errorMessage!;
+  ///
+  ///
+  ///
+  bool get isSuccess => status == GeocodeStatus.ok;
 
   @override
   String toString() {
-    return 'GeocodeResponse{ status: $status, _errorMessage: $_errorMessage, results: $results,}';
+    return 'GeocodeResponse{status: $status, errorMessage: $errorMessage, results: $results}';
   }
 
   ///
@@ -38,7 +37,7 @@ class GeocodeResponse {
     }
 
     return GeocodeResponse._(
-      status: map['status'] as String,
+      status: GeocodeStatus.fromValue(map['status']),
       errorMessage: map['error_message'],
       results: results,
     );
@@ -49,7 +48,7 @@ class GeocodeResponse {
   ///
   factory GeocodeResponse.fromError(String errorMessage) {
     return GeocodeResponse._(
-      status: 'Error',
+      status: GeocodeStatus.unknownError,
       errorMessage: errorMessage,
       results: const [],
     );
