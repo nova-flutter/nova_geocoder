@@ -1,5 +1,6 @@
+import 'package:nova_google_services_core/nova_google_services_core.dart';
+
 import 'address.dart';
-import 'geocode_status.dart';
 
 class GeocodeResponse {
   const GeocodeResponse._({
@@ -8,14 +9,14 @@ class GeocodeResponse {
     this.errorMessage,
   });
 
-  final GeocodeStatus status;
+  final ResponseStatus status;
   final String? errorMessage;
   final List<Address> results;
 
   ///
   ///
   ///
-  bool get isSuccess => status == GeocodeStatus.ok;
+  bool get isSuccess => status == ResponseStatus.ok;
 
   @override
   String toString() {
@@ -37,7 +38,7 @@ class GeocodeResponse {
     }
 
     return GeocodeResponse._(
-      status: GeocodeStatus.fromValue(map['status']),
+      status: ResponseStatus.fromValue(map['status']),
       errorMessage: map['error_message'],
       results: results,
     );
@@ -48,7 +49,7 @@ class GeocodeResponse {
   ///
   factory GeocodeResponse.fromError(String errorMessage) {
     return GeocodeResponse._(
-      status: GeocodeStatus.unknownError,
+      status: ResponseStatus.unknownError,
       errorMessage: errorMessage,
       results: const [],
     );

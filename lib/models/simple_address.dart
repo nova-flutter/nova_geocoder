@@ -1,4 +1,6 @@
-import 'lat_lng_literal.dart';
+
+
+import 'package:nova_google_services_core/nova_google_services_core.dart';
 
 class SimpleAddress {
   SimpleAddress({

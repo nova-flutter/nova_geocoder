@@ -1,9 +1,6 @@
+import 'package:nova_google_services_core/nova_google_services_core.dart';
 
-
-import 'address_component.dart';
-import 'geometry.dart';
 import 'simple_address.dart';
-
 
 class Address {
   const Address({
@@ -54,7 +51,8 @@ class Address {
 
   factory Address.fromMap(Map<String, dynamic> map) {
     return Address(
-      addressComponents: parseAddressComponentArray(map['address_components']),
+      addressComponents:
+          parseAddressComponentArray(map['address_components']) ?? const [],
       formattedAddress: map['formatted_address'] as String,
       geometry: Geometry.fromMap(map['geometry']),
       placeId: map['place_id'] as String,

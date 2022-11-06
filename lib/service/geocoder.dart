@@ -1,32 +1,24 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
-import 'package:logging/logging.dart';
+import 'package:nova_google_services_core/nova_google_services_core.dart';
 
 import '../models/geocode_response.dart';
 
-class Geocoder {
-  Geocoder(this._apiKey)
-      : _log = Logger('NovaGeocode'),
-        _language = 'en';
-
-  final Logger _log;
-  String _apiKey;
-  String _language;
+class Geocoder extends GoogleWebService {
   String? _region;
   String? _locationType;
 
-  String get apiKey => _apiKey;
-
-  String get language => _language;
+  Geocoder({
+    String? apiKey,
+    bool debug = false,
+  }) : super(
+          baseUri: Uri.https('maps.googleapis.com'),
+          serviceName: 'NovaGeocoder',
+          debug: debug,
+          apiKey: apiKey,
+        );
 
   String? get region => _region;
 
   String? get locationType => _locationType;
-
-  void setApiKey(String key) => _apiKey = key;
-
-  void setLanguage(String language) => _language = language;
 
   void setRegion(String region) => _region = region;
 
@@ -43,21 +35,26 @@ class Geocoder {
     String? region,
     String? locationType,
   }) async {
-    final fApiKey = apiKey ?? _apiKey;
-    final fLanguage = language ?? _language;
     final fRegion = region ?? _region;
     final fLocationType = locationType ?? _locationType;
 
     final qp = <String, dynamic>{
-      'key': fApiKey,
       'latlng': '$latitude,$longitude',
-      'language': fLanguage,
+      if (language != null) 'language': language,
       if (fRegion != null) 'region': fRegion,
       if (fLocationType != null) 'location_type': fLocationType,
     };
 
-    final resp = await _handleRequest(qp);
-    return resp;
+    try {
+      final data = await doGet(
+        path: '/maps/api/geocode/json',
+        params: qp,
+      );
+      return GeocodeResponse.fromMap(data);
+    } catch (error) {
+      final gr = GeocodeResponse.fromError(error.toString());
+      return gr;
+    }
   }
 
   ///
@@ -70,46 +67,24 @@ class Geocoder {
     String? region,
     String? locationType,
   }) async {
-    final fApiKey = apiKey ?? _apiKey;
-    final fLanguage = language ?? _language;
     final fRegion = region ?? _region;
     final fLocationType = locationType ?? _locationType;
 
     final qp = <String, dynamic>{
-      'key': fApiKey,
       'address': address,
-      'language': fLanguage,
+      if (apiKey != null) 'key': apiKey,
+      if (language != null) 'language': language,
       if (fRegion != null) 'region': fRegion,
       if (fLocationType != null) 'location_type': fLocationType,
     };
 
-    final resp = await _handleRequest(qp);
-    return resp;
-  }
-
-  ///
-  ///
-  ///
-  Future<GeocodeResponse> _handleRequest(
-    Map<String, dynamic> queryParams,
-  ) async {
-    final url = Uri.https(
-      'maps.googleapis.com',
-      '/maps/api/geocode/json',
-      queryParams,
-    );
-
-    _log.info('Request: ${url.toString()}');
-
     try {
-      var response = await http.get(url);
-      final data = response.body;
-      _log.info('Request: ${url.toString()}, Response: $data');
-      final jsonBody = json.decode(data);
-      final gr = GeocodeResponse.fromMap(jsonBody);
-      return gr;
+      final data = await doGet(
+        path: '/maps/api/geocode/json',
+        params: qp,
+      );
+      return GeocodeResponse.fromMap(data);
     } catch (error) {
-      _log.warning('Request: ${url.toString()}, Response: $error');
       final gr = GeocodeResponse.fromError(error.toString());
       return gr;
     }

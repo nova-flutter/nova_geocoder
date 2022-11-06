@@ -1,7 +1,7 @@
 import 'package:nova_geocoder/nova_geocoder.dart';
 
 void main(List<String> arguments) async {
-  final geocoder = Geocoder('api-key')
+  final geocoder = Geocoder(apiKey: 'api-key')
     ..setLanguage('en')
     ..setRegion('us');
 
@@ -33,4 +33,6 @@ void main(List<String> arguments) async {
     print(simpleAddress.city);
     print(simpleAddress.country);
   }
+
+  geocoder.dispose();
 }

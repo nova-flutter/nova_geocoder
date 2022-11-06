@@ -11,7 +11,7 @@ This package uses [Google Maps Geocoding API](https://developers.google.com/maps
 ```dart
 import 'package:nova_geocoder/nova_geocoder.dart';
 
-final geocoder = Geocoder('api-key')
+final geocoder = Geocoder(apiKey: 'api-key')
   ..setLanguage('en')
   ..setRegion('us');
 
@@ -43,4 +43,6 @@ if (!response2.isSuccess) {
   print(simpleAddress.city);
   print(simpleAddress.country);
 }
+
+geocoder.dispose();
 ```
